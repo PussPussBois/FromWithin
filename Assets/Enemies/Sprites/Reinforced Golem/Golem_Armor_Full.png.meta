@@ -212,7 +212,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -1522,8 +1522,8 @@ TextureImporter:
       Golem_Armor_Full_11: -9078506168090886282
       Golem_Armor_Full_9: 7050462077273540318
       Golem_Armor_Full_19: 7429110791463618962
-      Golem_Armor_Full_15: -7695327330419806079
       Golem_Armor_Full_43: 4756654934318416026
+      Golem_Armor_Full_15: -7695327330419806079
       Golem_Armor_Full_40: 6091168675819009897
       Golem_Armor_Full_22: 4041136307729547636
   spritePackingTag: 
