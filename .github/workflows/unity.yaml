@@ -1,0 +1,16 @@
+# This workflow will test, build and deploy a Unity Project
+
+name: Unity CI
+
+on:
+  push:
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Display workspace
+        run: ls -la
