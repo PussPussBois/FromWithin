@@ -8,9 +8,12 @@ on:
     branches: [ main, dev ]
 
 jobs:
-  test:
+  activate:
+    name: Activate Unity License
     runs-on: ubuntu-22.04
+    env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+        UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Display workspace
-        run: ls -la
+      - uses: game-ci/unity-activate@v2
