@@ -30,6 +30,8 @@ jobs:
           path: Library
           key: Library-FromWithin-${{ matrix.targetPlatform }}
           restore-keys: Library-
+      
+      - name: Display Working Directory
         run: ls -la
 
       - name: Build Unity Game
