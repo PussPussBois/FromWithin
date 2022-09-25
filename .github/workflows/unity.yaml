@@ -1,0 +1,50 @@
+# This workflow will test, build and deploy a Unity Project
+
+name: Unity CI
+
+on:
+  push:
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+    name: Build for ${{ matrix.targetPlaform }}
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - WebGL # Build for WebGL
+          - StandaloneWindows64 # Build for Windows 64-bit Standalone
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Restore Library Cache
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-FromWithin-${{ matrix.targetPlatform }}
+          restore-keys: Library-
+      
+      - name: Display Working Directory
+        run: ls -la
+
+      - name: Build Unity Game
+        id: buildStep
+        uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: ${{ matrix.targetPlatform }}
+          versioning: Semantic
+
+      - name: Upload Unity Game Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build-${{ matrix.targetPlatform }}-${{ steps.buildStep.outputs.buildVersion }}
+          path: build/${{ matrix.targetPlatform }}
