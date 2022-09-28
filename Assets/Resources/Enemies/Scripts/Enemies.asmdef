@@ -1,3 +1,4 @@
 {
-	"name": "Enemies"
+	"name": "Enemies",
+	"rootNamespace": "FromWithin.Enemies"
 }

@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2724823919195902165}
   - component: {fileID: 2724823919195902167}
   - component: {fileID: 2724823919195902166}
-  - component: {fileID: 6820018146295241663}
   - component: {fileID: 5203781908587140885}
   - component: {fileID: 371746217200747092}
+  - component: {fileID: 6820018146295241663}
   m_Layer: 0
   m_Name: Golem A
   m_TagString: Untagged
@@ -108,18 +108,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6820018146295241663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2724823919195902164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0146af9c44c12b540bb4d126314f58b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &5203781908587140885
 Rigidbody2D:
   serializedVersion: 4
@@ -157,3 +145,16 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.16029114}
   m_Size: {x: 0.8027295, y: 1.3071088}
   m_Direction: 0
+--- !u!114 &6820018146295241663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2724823919195902164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0146af9c44c12b540bb4d126314f58b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
