@@ -1,22 +1,18 @@
 using UnityEngine;
-using UnityEngine.Serialization;
-using Vector2 = UnityEngine.Vector2;
 
 namespace FromWithin.Enemies
 {
     public class EnemyController : MonoBehaviour
     {
-        [SerializeField]
-        private float initialMoveSpeed = 1f;
+        public float MoveSpeed { get; set; }
+        public bool IsJumping { get; private set; }
+        public float JumpThreshold { get; private set; }
 
-        [SerializeField]
-        private float jumpThreshold = 0.5f;
+        [SerializeField] private float initialMoveSpeed = 1f;
+
+        [SerializeField] private float initialJumpThreshold = 0.5f;
 
         private Rigidbody2D _rb;
-
-        public float MoveSpeed { get; private set; }
-        public bool IsJumping { get; private set; }
-
         private Vector2 _target;
 
         private void Awake()
@@ -27,6 +23,7 @@ namespace FromWithin.Enemies
         private void Start()
         {
             MoveSpeed = initialMoveSpeed;
+            JumpThreshold = initialJumpThreshold;
             _target = transform.position;
         }
 
@@ -37,17 +34,13 @@ namespace FromWithin.Enemies
 
         private void HandleMovement()
         {
-            var currentPosition = _rb.position;
-            var newPosition = Vector2.MoveTowards(
-                currentPosition, _target, MoveSpeed * Time.deltaTime);
-
-            IsJumping = _target.y - currentPosition.y >= jumpThreshold;
-
-            _rb.position = new Vector2
+            var direction = _target - _rb.position;
+            _rb.velocity = new Vector2
             {
-                x = newPosition.x,
-                y = 0
+                x = Mathf.Clamp(direction.x, -1f, 1f) * MoveSpeed,
+                y = _rb.velocity.y
             };
+            IsJumping = direction.y > JumpThreshold;
         }
 
         public void Move(Vector2 target)
