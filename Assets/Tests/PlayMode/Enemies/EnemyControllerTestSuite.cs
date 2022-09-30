@@ -17,6 +17,9 @@ namespace Tests.PlayMode.Enemies
             var testObject = Object.Instantiate(
                 Resources.Load<GameObject>("Enemies/Prefabs/Golem A"));
             _controller = testObject.GetComponent<EnemyController>();
+
+            // TODO: Instead of disabling gravity, add a floor
+            testObject.GetComponent<Rigidbody2D>().gravityScale = 0f;
         }
 
         [TearDown]
@@ -26,47 +29,26 @@ namespace Tests.PlayMode.Enemies
         }
 
         [UnityTest]
-        public IEnumerator TestMoveEnemyLeft()
+        public IEnumerator TestEnemyMovesToTargetAndStops()
         {
             var transform = _controller.transform;
 
             // Act
-            var initialPosition = transform.position;
-            _controller.Move(new Vector2
+            _controller.MoveSpeed = 10f;
+            var targetPosition = new Vector2
             {
-                x = -1f,
+                x = 4f,
                 y = 0f
-            });
+            };
+            _controller.Move(targetPosition);
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1f);
 
             // Assert
             // ReSharper disable once Unity.InefficientPropertyAccess
             var position = transform.position;
-            Assert.Less(position.x, initialPosition.x);
-            Assert.AreEqual(position.y, initialPosition.y);
-        }
-        
-        [UnityTest]
-        public IEnumerator TestMoveEnemyRight()
-        {
-            var transform = _controller.transform;
-
-            // Act
-            var initialPosition = transform.position;
-            _controller.Move(new Vector2
-            {
-                x = 1f,
-                y = 0f
-            });
-
-            yield return new WaitForSeconds(0.1f);
-
-            // Assert
-            // ReSharper disable once Unity.InefficientPropertyAccess
-            var position = transform.position;
-            Assert.Greater(position.x, initialPosition.x);
-            Assert.AreEqual(position.y, initialPosition.y);
+            Assert.AreEqual(targetPosition.x, position.x, 0.1f);
+            Assert.AreEqual(targetPosition.y, position.y, float.Epsilon);
         }
 
         [UnityTest]
@@ -78,11 +60,11 @@ namespace Tests.PlayMode.Enemies
             _controller.Move(new Vector2
             {
                 x = 1f,
-                y = 0.5f
+                y = _controller.JumpThreshold
             });
 
             yield return new WaitForSeconds(0.1f);
-            
+
             // Assert
             // ReSharper disable once Unity.InefficientPropertyAccess
             var position = transform.position;
@@ -94,13 +76,9 @@ namespace Tests.PlayMode.Enemies
         public IEnumerator TestEnemyJumpsWhenYVectorIsGreaterThanLimit()
         {
             // Act
-            _controller.Move(new Vector2
-            {
-                x = 0f,
-                y = 1f
-            });
+            _controller.Move(Vector2.up);
             yield return new WaitForSeconds(0.1f);
-            
+
             // Assert
             Assert.True(_controller.IsJumping);
         }
@@ -109,13 +87,9 @@ namespace Tests.PlayMode.Enemies
         public IEnumerator TestEnemyDoesNotJumpWhenYVectorIsLessThanLimit()
         {
             // Act
-            _controller.Move(new Vector2
-            {
-                x = 0f,
-                y = 0.1f
-            });
+            _controller.Move(Vector2.up * _controller.JumpThreshold);
             yield return new WaitForSeconds(0.1f);
-            
+
             // Assert
             Assert.False(_controller.IsJumping);
         }
